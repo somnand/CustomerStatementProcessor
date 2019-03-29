@@ -16,11 +16,11 @@ public class TransactionValidator {
 	private void validateEndBalance(MultiValueMap transactions) {
 
 		Set<Integer> keySet = transactions.keySet();
-		
+
 		for (int key :keySet) {
-			
+
 			Collection<Transaction> valueCollection = (Collection) transactions.get(key);
-			
+
 			if(valueCollection.size()>1) {
 				for(Transaction temp: valueCollection){
 					temp.setFailed(true);
@@ -33,11 +33,11 @@ public class TransactionValidator {
 	private void validateReferenceNumber(MultiValueMap transactions) {
 
 		Set<Integer> keySet = transactions.keySet();
-		
+
 		for (int key :keySet) {
-			
+
 			Collection<Transaction> valueCollection = (Collection) transactions.get(key);
-			
+
 			if(valueCollection.size() == 1) {
 				for(Transaction temp : valueCollection) {
 					if(temp.getEndBalance()<0)

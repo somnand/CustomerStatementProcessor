@@ -5,10 +5,17 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.collections.map.MultiValueMap;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.mycompany.statementprocessor.Transaction;
 
 public class HelperClass {
+	
+	HelperClass(){
+		super();
+		PropertyConfigurator.configure("log4j.properties");
+	}
+	
 	public MultiValueMap generateInputForValidator() {
 		return generateExpectedOutputForParser();
 	}
@@ -17,14 +24,20 @@ public class HelperClass {
 		
 		Set<Integer> keySet = transactions.keySet();
 		Set<Integer> expectedkeySet = expectedTransactions.keySet();
+		
 		if(keySet.size()!=keySet.size())
 			return false;
+		
 		for (int key :keySet) {
+			
 			Collection<Transaction> resultCollection = (Collection<Transaction>) transactions.get(key);
 			Collection<Transaction> expectedCollection = (Collection<Transaction>)expectedTransactions.get(key);
+			
 			if(resultCollection.size() != expectedCollection.size())
 				return false;
+			
 			Iterator<Transaction> iterator = expectedCollection.iterator();
+			
 			for(Transaction temp: resultCollection){
 					if(!temp.equals(iterator.next()))
 					return false;
@@ -46,11 +59,15 @@ public class HelperClass {
 	public MultiValueMap generateExpectedOutputForValidator() {
 		
 		MultiValueMap transactions = generateExpectedOutputForParser();
+		
 		Collection<Transaction> collection = (Collection) transactions.get(163590);
+		
 		for(Transaction temp: collection){
 			temp.setFailed(true);
 		}
+		
 		collection = (Collection) transactions.get(196213);
+		
 		for(Transaction temp: collection){
 			temp.setFailed(true);
 		}

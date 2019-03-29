@@ -9,32 +9,45 @@ import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.collections.map.MultiValueMap;
+import org.apache.log4j.Logger;
 
 public class ReportGenerator {
-	
+
+	static Logger logger = Logger.getLogger(ReportGenerator.class);
+
 	public String generateReport(MultiValueMap transacitons) {
 		String lineofText= null;
 		boolean foundRecord = false;
+		
 		String outputFileName = "failedTransactionReport"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+".csv";
+		
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName));) {
-			
+
 			writer.write("Reference,Description\n");
+			
 			Set<Integer> keySet = transacitons.keySet();
+			
 			for (int key :keySet) {
+				
 				Collection<Transaction> valueCollection = (Collection) transacitons.get(key);
+				
 				for(Transaction temp: valueCollection){
-						if(temp.isFailed()) {
-							if(!foundRecord)
-								foundRecord = true;
-							lineofText = temp.getTransactionNo()+","+temp.getDescription()+"\n";
-							writer.write(lineofText);
-						} 
-					}
+					
+					if(temp.isFailed()) {
+						
+						if(!foundRecord)
+							foundRecord = true;
+						
+						lineofText = temp.getTransactionNo()+","+temp.getDescription()+"\n";
+						writer.write(lineofText);
+					} 
+				}
 			}
 			if(!foundRecord)
 				writer.write("No failed transactions to report\n");			
 		} catch (IOException e) {
-			
+
+			logger.error("Exceptions happen!", e);
 			System.out.println("Error Occured !!!!!!!Check the log file for error.");
 		}
 		return outputFileName;
