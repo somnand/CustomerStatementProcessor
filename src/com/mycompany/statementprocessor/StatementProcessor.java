@@ -14,6 +14,7 @@ public class StatementProcessor {
 		MultiValueMap transactions = new MultiValueMap();
 		TransactionParser parser = new TransactionParser();
 		TransactionValidator validator = new TransactionValidator();
+		ReportGenerator generator = new ReportGenerator();
 	
 			if(args.length == 1) {
 				filepath = args[0];
@@ -53,6 +54,11 @@ public class StatementProcessor {
 			}
 			
 			validator.validate(transactions);
+			
+			String outputFileName = generator.generateReport(transactions);
+			
+			if(outputFileName!=null)
+				System.out.println("The generated file is: "+outputFileName);
 
 	}
 
