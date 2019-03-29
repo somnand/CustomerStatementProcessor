@@ -13,6 +13,7 @@ public class StatementProcessor {
 		String filepath = null;
 		MultiValueMap transactions = new MultiValueMap();
 		TransactionParser parser = new TransactionParser();
+		TransactionValidator validator = new TransactionValidator();
 	
 			if(args.length == 1) {
 				filepath = args[0];
@@ -50,6 +51,8 @@ public class StatementProcessor {
 				System.out.println("There is nothing to process. Please refer error log");
 				return;
 			}
+			
+			validator.validate(transactions);
 
 	}
 
