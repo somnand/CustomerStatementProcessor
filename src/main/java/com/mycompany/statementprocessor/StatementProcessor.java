@@ -15,7 +15,7 @@ public class StatementProcessor {
 	public static void main(String[] args) {
 
 		String filepath = null;
-		MultiValueMap transactions = new MultiValueMap();
+		MultiValueMap transactions = null;
 		TransactionParser parser = new TransactionParser();
 		TransactionValidator validator = new TransactionValidator();
 		ReportGenerator generator = new ReportGenerator();
